@@ -548,7 +548,7 @@ footer{
 .mb-2{margin-bottom:2rem;}
 .mt-2{margin-top:2rem;}
 
-/* PRINT STYLES */
+/* PRINT STYLES PARA PDF OPTIMIZADO */
 @media print{
   .floating-buttons,
   .whatsapp-float,
@@ -558,23 +558,137 @@ footer{
   }
   
   body{
-    background:white;
-    color:black;
+    background:white !important;
+    color:black !important;
+    font-size:14px !important;
+    line-height:1.5 !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:10px !important;
+  }
+  
+  .container{
+    max-width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+  
+  section{
+    padding:15px 10px !important;
+    margin-bottom:10px !important;
+    page-break-inside:avoid !important;
   }
   
   .card{
-    border:1px solid #ddd;
-    box-shadow:none;
-    page-break-inside:avoid;
+    background:white !important;
+    border:1px solid #ddd !important;
+    box-shadow:none !important;
+    margin-bottom:15px !important;
+    padding:15px !important;
+    page-break-inside:avoid !important;
   }
   
   .hero{
     background:none !important;
-    min-height:auto;
+    min-height:auto !important;
+    padding:20px 10px !important;
   }
   
   .hero::after{
-    display:none;
+    display:none !important;
+  }
+  
+  h1,h2,h3{
+    color:black !important;
+    page-break-after:avoid !important;
+  }
+  
+  h1{
+    font-size:20px !important;
+    margin-bottom:10px !important;
+  }
+  
+  h2{
+    font-size:18px !important;
+    margin-bottom:8px !important;
+  }
+  
+  p, li{
+    color:#333 !important;
+    font-size:14px !important;
+    margin-bottom:10px !important;
+  }
+  
+  .logo{
+    width:150px !important;
+    margin-bottom:10px !important;
+  }
+  
+  img{
+    max-width:100% !important;
+    height:auto !important;
+    margin:10px 0 !important;
+  }
+  
+  ul, ol{
+    margin:10px 0 !important;
+  }
+  
+  li{
+    padding:5px 0 5px 15px !important;
+    border-bottom:1px solid #eee !important;
+  }
+  
+  /* MARCA DE AGUA PARA PDF */
+  body::before{
+    content:"" !important;
+    position:fixed !important;
+    top:50% !important;
+    left:50% !important;
+    transform:translate(-50%, -50%) !important;
+    width:300px !important;
+    height:100px !important;
+    background-image:url('https://i.imgur.com/DGBtqM1.png') !important;
+    background-size:contain !important;
+    background-repeat:no-repeat !important;
+    background-position:center !important;
+    opacity:0.1 !important;
+    z-index:9999 !important;
+    pointer-events:none !important;
+  }
+  
+  /* Asegurar que el contenido sea legible sobre la marca de agua */
+  .container > *{
+    position:relative !important;
+    z-index:10000 !important;
+  }
+  
+  /* Evitar que las imágenes se corten */
+  img{
+    max-height:250px !important;
+    object-fit:contain !important;
+  }
+  
+  /* Mejorar espaciado para mobile en PDF */
+  @page{
+    margin:10mm !important;
+  }
+  
+  /* Evitar que los títulos queden solos al final de página */
+  h1, h2, h3{
+    page-break-after:avoid !important;
+  }
+  
+  p{
+    page-break-inside:avoid !important;
+    orphans:3 !important;
+    widows:3 !important;
+  }
+  
+  /* Mejorar visualización de listas */
+  li{
+    page-break-inside:avoid !important;
   }
 }
 </style>
@@ -592,8 +706,8 @@ footer{
     <h1>Especialistas en Auditoría</h1>
     <p>Certeza financiera · Control · Confianza</p>
     <div class="mt-2">
-  <a href="https://choochshoot.github.io/asesoria-fiscal-site/" class="btn btn-primary">Ir a Web Page</a>
-</div>
+      <a href="https://choochshoot.github.io/asesoria-fiscal-site/" class="btn btn-primary">Nuestros Servicios</a>
+    </div>
   </div>
 </section>
 
@@ -828,7 +942,7 @@ pdfModal.addEventListener('click', (e) => {
   }
 });
 
-// Generate PDF function
+// Generate PDF function - OPTIMIZED FOR MOBILE
 function generatePDF(type = 'simple') {
   // Show loading overlay
   loadingOverlay.style.display = 'flex';
@@ -837,34 +951,115 @@ function generatePDF(type = 'simple') {
   // Define the element to convert to PDF
   const element = document.querySelector('.container');
   
-  // PDF options
+  // Create a clone to avoid affecting the original
+  const elementClone = element.cloneNode(true);
+  
+  // Add mobile-optimized styles to the clone
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Mobile-optimized PDF styles */
+    @media print {
+      body {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+      }
+      
+      .card {
+        margin-bottom: 15px !important;
+        padding: 15px !important;
+        page-break-inside: avoid !important;
+      }
+      
+      h1 {
+        font-size: 20px !important;
+        margin-bottom: 10px !important;
+      }
+      
+      h2 {
+        font-size: 18px !important;
+        margin-bottom: 8px !important;
+      }
+      
+      p, li {
+        font-size: 14px !important;
+        margin-bottom: 10px !important;
+      }
+      
+      img {
+        max-width: 100% !important;
+        max-height: 200px !important;
+        object-fit: contain !important;
+      }
+      
+      /* Watermark for PDF */
+      body::before {
+        content: "" !important;
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 250px !important;
+        height: 80px !important;
+        background-image: url('https://i.imgur.com/DGBtqM1.png') !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        opacity: 0.08 !important;
+        z-index: 9999 !important;
+        pointer-events: none !important;
+      }
+    }
+  `;
+  
+  // Create a wrapper div for the PDF
+  const pdfWrapper = document.createElement('div');
+  pdfWrapper.appendChild(style);
+  pdfWrapper.appendChild(elementClone);
+  
+  // Add the wrapper to the body temporarily
+  document.body.appendChild(pdfWrapper);
+  
+  // PDF options optimized for mobile
   const opt = {
-    margin: [0.5, 0.5, 0.5, 0.5],
+    margin: [10, 10, 10, 10],
     filename: `Pulido-Asesores-Brochure-${type === 'simple' ? 'Simple' : 'Completo'}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { 
+      type: 'jpeg', 
+      quality: 0.95 
+    },
     html2canvas: { 
       scale: 2,
       useCORS: true,
-      scrollY: 0
+      scrollY: 0,
+      windowWidth: 375, // Mobile width
+      width: 375, // Mobile width
+      x: 0,
+      y: 0,
+      backgroundColor: '#ffffff'
     },
     jsPDF: { 
-      unit: 'in', 
-      format: 'letter', 
-      orientation: 'portrait' 
+      unit: 'mm', 
+      format: 'a4', 
+      orientation: 'portrait',
+      compress: true
+    },
+    pagebreak: {
+      mode: ['css', 'legacy', 'avoid-all']
     }
   };
   
-  // Add header for complete version
-  if(type === 'complete') {
-    opt.pagebreak = { mode: ['css', 'legacy'] };
-  }
-  
   // Generate and download PDF
   setTimeout(() => {
-    html2pdf().set(opt).from(element).save().then(() => {
+    html2pdf().set(opt).from(pdfWrapper).save().then(() => {
       // Hide loading overlay
       loadingOverlay.style.display = 'none';
       document.body.style.overflow = 'auto';
+      
+      // Remove temporary wrapper
+      document.body.removeChild(pdfWrapper);
       
       // Close modal
       pdfModal.style.display = 'none';
@@ -875,6 +1070,7 @@ function generatePDF(type = 'simple') {
       console.error('Error generating PDF:', err);
       loadingOverlay.style.display = 'none';
       document.body.style.overflow = 'auto';
+      document.body.removeChild(pdfWrapper);
       showNotification('Error al generar el PDF', 'error');
     });
   }, 500);
@@ -940,3 +1136,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 </script>
 </body>
+</html>
